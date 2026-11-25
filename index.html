@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Retorno TikTok</title>
+<style>
+body { font-family: system-ui, sans-serif; max-width: 640px; margin: 40px auto; padding: 0 16px; color: #222; }
+code { display: block; word-break: break-all; background: #f3f3f3; padding: 10px; border-radius: 6px; margin-top: 8px; }
+button { margin-top: 10px; padding: 8px 14px; cursor: pointer; }
+</style>
+</head>
+<body>
+<h1>Retorno de autorização</h1>
+<div id="out"></div>
+<script>
+// Página estática: só lê os parâmetros da URL e mostra o resultado.
+// Não grava nenhum dado, não usa cookies e não chama serviços externos.
+var params = new URLSearchParams(window.location.search);
+var out = document.getElementById('out');
+var code = params.get('code');
+var error = params.get('error');
+var errorDesc = params.get('error_description');
+
+if (code) {
+  out.innerHTML = '<p>Autorização recebida. Copie o código abaixo:</p><code id="c"></code><button id="b">Copiar código</button>';
+  document.getElementById('c').textContent = code;
+  document.getElementById('b').onclick = function () {
+    navigator.clipboard.writeText(code);
+  };
+} else if (error) {
+  out.innerHTML = '<p>O TikTok retornou um erro:</p><code id="e"></code>';
+  document.getElementById('e').textContent = error + (errorDesc ? ' - ' + errorDesc : '');
+} else {
+  out.innerHTML = '<p>Esta página recebe o retorno do TikTok. Nenhum código foi recebido ainda.</p>';
+}
+</script>
+</body>
+</html>
